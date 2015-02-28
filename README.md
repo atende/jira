@@ -30,7 +30,7 @@ See: [POSTGRESQL](POSTGRESQL.md)
 
 ### 3. Start the Crowd container
 
-    docker run -d --name crowd -p 8085:8085 --link postgresql:db atende/atlassian-crowd \
+    docker run -d --name crowd -p 8085:8085 --link postgresql:db atende/crowd \
     --volumes-from crowd\_datastore
 
 ## Running Behind a Proxy

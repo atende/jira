@@ -41,11 +41,10 @@ The *nginx-proxy* defaults are not sufficient to run Atlassian applications. The
 * proxy_read_timeout
 * send_timeout
 
-That is because the post size too upload files in nginx is very small, and
-the timeout to the proxy is small to. The timeout cause some operations like
-backup restore to timeout in proxy before they actually fail in the application.
+That is because the post size in nginx is too small for upload of files, and the timeout as well. The timeout cause some operations like
+backup and restore to timeout in proxy before they actually fail in the application.
 
-For that reason a docker image was created with to customize this properties:
+For that reason a docker image was created to customize this properties:
 **atende/nginx-proxy**, it just alter de defaults with:
 
     server_tokens off;
