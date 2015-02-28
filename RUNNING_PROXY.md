@@ -30,15 +30,36 @@ To create the proxy we high recommend the use of
 because it will do a little of magic and configure the proxy automatically when
 the container starts.
 
-The nginx-proxy container works by listen to docker events to know if a container
+The *nginx-proxy* container works by listen to docker events to know if a container
 start or stop, them it will inspect the container for the **VIRTUAL_HOST**
 environment variable and create the proxy configuration automagically ;-)
+
+The *nginx-proxy* defaults are not sufficient to run Atlassian applications. There are two things you will have to configure:
+
+* client_max_body_size
+* proxy_send_timeout
+* proxy_read_timeout
+* send_timeout
+
+That is because the post size too upload files in nginx is very small, and
+the timeout to the proxy is small to. The timeout cause some operations like
+backup restore to timeout in proxy before they actually fail in the application.
+
+For that reason a docker image was created with to customize this properties:
+**atende/nginx-proxy**, it just alter de defaults with:
+
+    server_tokens off;
+    client_max_body_size 200m;
+    proxy_send_timeout 300;
+    proxy_read_timeout 300;
+    send_timeout 300;
+
 
 As a example:
 
 ```
 docker run -d --name nginx -p 80:80 -p 443:443 -v \
-/var/run/docker.sock:/tmp/docker.sock -v /opt/certs:/etc/nginx/certs -t jwilder/nginx-proxy
+/var/run/docker.sock:/tmp/docker.sock -v /opt/certs:/etc/nginx/certs -t atende/nginx-proxy
 
 docker run -d --name container_name -e VIRTUAL_HOST=software.company.com \
 -e PROXY_SCHEME=https -e PROXY_PORT=443 -e PROXY_SECURED=true \
