@@ -65,6 +65,8 @@ docker run -d --name container_name -e VIRTUAL_HOST=software.company.com \
 --volumes-from jira\_home -p 8080 --link postgresql:db atende/software
 ```
 
+**Note: change the command with information for the application you are running.**
+
 Now you just need to put your certification in */opt/certs* with the names
 *software.company.com.crt* and *software.company.com.key* and point you DNS to
 the nginx instance (the docker host).
