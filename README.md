@@ -1,13 +1,8 @@
-# Atlassian Crowd
+# Atlassian SOFTWARE_NAME
 
-[Crowd](http://www.atlassian.com/software/crowd) is a Single Single On software
-created by [Atlassian](http://www.atlassian.com). With this software you could
-provide a single point of authetication to all the Atlassian software and to third part one.
+Description of the software
 
-Users can come from Active Directory, LDAP, Crowd itself, or any mix. Is compatible
-with Google Apps, Subversion or your own apps.
-
-This is base on [Hbokh/docker-jira-postgresql](https://github.com/hbokh/docker-jira-postgresql)
+This is inspired by [Hbokh/docker-jira-postgresql](https://github.com/hbokh/docker-jira-postgresql)
 but the installation and run process is made in a more generic way, to serve as base
 for the installation of other Atlassian Products.
 
@@ -16,11 +11,11 @@ for the installation of other Atlassian Products.
 Is best practice to separate the data from the container. This instalation process
 will assume this.
 
-### 1. Create a data-only container for Crowd
+### 1. Create a data-only container for SOFTWARE_NAME
 
-Create a data-only container from Busybox (very small footprint) and name it "crowd\_datastore":
+Create a data-only container from Busybox (very small footprint) and name it "SOFTWARE_NAME\_datastore":
 
-    docker run -v /opt/crowd-home --name=crowd\_datastore -d busybox echo "crowd data"
+    docker run -v /opt/crowd-home --name=SOFTWARE_NAME\_datastore -d busybox echo "SOFTWARE_NAME data"
 
 **NOTE**: data-only containers don't have to run / be active to be used.
 
@@ -28,10 +23,10 @@ Create a data-only container from Busybox (very small footprint) and name it "cr
 
 See: [POSTGRESQL](POSTGRESQL.md)
 
-### 3. Start the Crowd container
+### 3. Start the Software container
 
-    docker run -d --name crowd -p 8085:8085 --link postgresql:db atende/crowd \
-    --volumes-from crowd\_datastore
+    docker run -d --name SOFTWARE_NAME -p 8085:8085 --link postgresql:db atende/SOFTWARE_NAME \
+    --volumes-from SOFTWARE_NAME\_datastore
 
 ## Running Behind a Proxy
 
