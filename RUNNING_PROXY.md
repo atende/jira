@@ -6,6 +6,8 @@ file to configure the reverse proxy, mainly if you use SSL
 To make this easy you could run this container with a environment variable called *VIRTUAL_HOST* this variable will change the tomcat server configuration
 to proxy the request.
 
+![Docker Containers](subdomains_and_docker-650x352.png)
+
 You just need to run the container with the command:
 
 ```
