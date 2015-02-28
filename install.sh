@@ -2,7 +2,7 @@
 
 install(){
   echo "Downloading software ${SOFTWARE_NAME}"
-  curl -LSs https://www.atlassian.com/software/${SOFTWARE_NAME}/downloads/binary/atlassian-crowd-${SOFTWARE_VERSION}.tar.gz -o /tmp/${SOFTWARE_NAME}.tar.gz
+  curl -LSs https://www.atlassian.com/software/${SOFTWARE_NAME}/downloads/binary/atlassian-${SOFTWARE_NAME}-${SOFTWARE_VERSION}.tar.gz -o /tmp/${SOFTWARE_NAME}.tar.gz
   echo "Installing ${SOFTWARE_NAME}"
   mkdir -p /opt/${SOFTWARE_NAME}
   tar zxf /tmp/${SOFTWARE_NAME}.tar.gz --strip=1 -C /opt/${SOFTWARE_NAME}
@@ -14,8 +14,8 @@ install(){
 
   mkdir -p /opt/${SOFTWARE_NAME}-home
 }
-post_install(){ # Default NO Op implementation
-  :
+post_install(){
+  echo "${SOFTWARE_NAME}.home=/opt/${SOFTWARE_NAME}-home" > /opt/${SOFTWARE_NAME}/atlassian-${SOFTWARE_NAME}/WEB-INF/classes/${SOFTWARE_NAME}-application.properties
 }
 
 source /root/scripts/install_impl.sh

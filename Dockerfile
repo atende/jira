@@ -2,7 +2,7 @@ FROM atende/baseimage-jdk
 
 MAINTAINER Giovanni Silva giovanni@atende.info
 
-ENV SOFTWARE_NAME=crowd
+ENV SOFTWARE_NAME=atlassian
 
 ENV SOFTWARE_VERSION=2.8.0
 
