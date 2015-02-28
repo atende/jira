@@ -2,11 +2,11 @@ FROM atende/baseimage-jdk
 
 MAINTAINER Giovanni Silva giovanni@atende.info
 
-ENV SOFTWARE_NAME=atlassian
+ENV SOFTWARE_NAME=jira
 
-ENV SOFTWARE_VERSION=2.8.0
+ENV SOFTWARE_VERSION=6.3.15
 
-ENV SOFTWARE_PORT=8095
+ENV SOFTWARE_PORT=8080
 
 # Disable SSH (Not using it at the moment).
 RUN rm -rf /etc/service/sshd /etc/my_init.d/00_regen_ssh_host_keys.sh
@@ -26,6 +26,6 @@ COPY run.sh /etc/my_init.d/run.sh
 COPY scripts/run_impl.sh /root/scripts/run_impl.sh
 RUN chmod +x /etc/my_init.d/run.sh
 
-EXPOSE 8095
+EXPOSE 8080
 
 CMD  ["/sbin/my_init"]
