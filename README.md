@@ -39,3 +39,18 @@ run other applications in the same host.
 This is a common feature of the atlassian images generetad by Atende Tecnology.
 
 See the [Instructions](RUNNING_PROXY.md)
+
+## Easy Running Everything at Once
+
+Using [Crane](https://github.com/michaelsauter/crane) you can easy startup all containers at once respecting its dependencies. This is by far the easy way to create a environment with several atlassian tools and ready for production. Just install docker, install crane and see [crane.yml](crane.yml) file.
+Change the file with your values and create the databases for each application
+in the *postgresql* container and configure each application accessing it interface.
+
+If you keep the proxy settings (see [Running behind Proxy](RUNNING_PROXY.md) for details),
+it will also automatically create the proxy. Now you just need to change your DNS server
+
+If you are migrating, restore your data in the data containers, and in the database
+
+The startup script for crane command could be something like that:
+
+    /usr/local/bin/crane lift -c /etc/crane.yml > /dev/null 2>&1

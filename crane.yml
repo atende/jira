@@ -1,0 +1,74 @@
+containers:
+  pgsql_datastore:
+    image: busybox
+    run:
+      volume: ["/data"]
+      cmd: ["echo 'pgsql data'"]
+      detach: true
+  postgresql:
+    image: atende/postgresql
+    run:
+      volumes-from: ["pgsql_datastore"]
+      detach: true
+  nginx:
+    image: atende/nginx-proxy
+    run:
+      volume: ["/opt/certs:/etc/nginx/certs","/var/run/docker.sock:/tmp/docker.sock"]
+      publish: ["80:80","443:443"]
+      detach: true
+  jira_home:
+    image: busybox
+    run:
+      volume: ["/opt/jira-home"]
+      cmd: ["echo 'jira data'"]
+      detach: true
+  confluence_home:
+    image: busybox
+    run:
+      volume: ["/opt/confluence-home"]
+      cmd: ["echo 'confluence data'"]
+      detach: true
+  stash_home:
+    image: busybox
+    run:
+      volume: ["/opt/stash-home"]
+      cmd: ["echo 'stash data'"]
+      detach: true
+  crowd_home:
+    image: busybox
+    run:
+      volume: ["/opt/crowd-home"]
+      cmd: ["echo 'crowd data'"]
+      detach: true
+  jira:
+    image: atende/jira
+    run:
+      env: ["VIRTUAL_HOST=project.company.com","PROXY_SCHEME=https","PROXY_PORT=443","PROXY_SECURED=true"]
+      volumes-from: ["jira_home"]
+      publish: ["8080"]
+      link: ["postgresql:db"]
+      detach: true
+  confluence:
+    image: atende/confluence
+    run:
+      env: ["VIRTUAL_HOST=wiki.company.com","PROXY_SCHEME=https","PROXY_PORT=443","PROXY_SECURED=true"]
+      volumes-from: ["confluence_home"]
+      publish: ["8090"]
+      link: ["postgresql:db"]
+      detach: true
+  stash:
+    image: atende/stash
+    run:
+      env: ["VIRTUAL_HOST=code.company.com","PROXY_SCHEME=https","PROXY_PORT=443","PROXY_SECURED=true"]
+      volumes-from: ["stash_home"]
+      publish: ["7990"]
+      link: ["postgresql:db"]
+      detach: true
+  crowd:
+    image: atende/crowd
+    run:
+      env: ["VIRTUAL_HOST=auth.company.com","PROXY_SCHEME=https","PROXY_PORT=443","PROXY_SECURED=true"]
+      volumes-from: ["crowd_home"]
+      publish: ["8095"]
+      link: ["postgresql:db"]
+      detach: true
