@@ -40,6 +40,12 @@ containers:
       volume: ["/opt/crowd-home"]
       cmd: ["echo","'crowd data'"]
       detach: true
+  bamboo_home:
+    image: busybox
+    run:
+      volume: ["/opt/bamboo-home"]
+      cmd: ["echo","'bamboo data'"]
+      detach: true
   jira:
     image: atende/jira
     run:
@@ -70,5 +76,13 @@ containers:
       env: ["VIRTUAL_HOST=auth.company.com","PROXY_SCHEME=https","PROXY_PORT=443","PROXY_SECURED=true"]
       volumes-from: ["crowd_home"]
       publish: ["8095:8095"]
+      link: ["postgresql:db"]
+      detach: true
+  bamboo:
+    image: atende/bamboo
+    run:
+      env: ["VIRTUAL_HOST=build.company.com","PROXY_SCHEME=https","PROXY_PORT=443","PROXY_SECURED=true"]
+      volumes-from: ["bamboo_home"]
+      publish: ["8085:8085"]
       link: ["postgresql:db"]
       detach: true
