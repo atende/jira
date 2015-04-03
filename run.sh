@@ -5,20 +5,9 @@ PROXY_SCHEME=${PROXY_SCHEME:-http}
 PROXY_SECURED=${PROXY_SECURED:-false}
 TOMCAT_LOCATION=/opt/${SOFTWARE_NAME}
 
+
 pre_start_action() {
-  if [ ! -z "$VIRTUAL_HOST" ]; then
-    if [ ! -e "${TOMCAT_LOCATION}/conf/server.xml.replaced" ]; then
-      cp ${TOMCAT_LOCATION}/conf/server.xml ${TOMCAT_LOCATION}/conf/server.xml.original
-    fi
-    cat ${TOMCAT_LOCATION}/conf/server.xml.original | sed -e "s/<Connector port=\"${SOFTWARE_PORT}\"/<Connector port=\"${SOFTWARE_PORT}\"\n\nproxyName=\"${VIRTUAL_HOST}\"\nproxyPort=\"${PROXY_PORT}\"\nscheme=\"${PROXY_SCHEME}\"\nsecured=\"${PROXY_SECURED}\"\n/g" > ${TOMCAT_LOCATION}/conf/server.xml.proxed
-    cp ${TOMCAT_LOCATION}/conf/server.xml.proxed ${TOMCAT_LOCATION}/conf/server.xml
-    touch ${TOMCAT_LOCATION}/conf/server.xml.replaced
-  else
-    if [ -e "${TOMCAT_LOCATION}/conf/server.xml.original" ]; then
-      mv ${TOMCAT_LOCATION}/conf/server.xml.original ${TOMCAT_LOCATION}/conf/server.xml
-      rm ${TOMCAT_LOCATION}/conf/server.xml.replaced
-    fi
-  fi
+  exec /usr/local/bin/scala /root/scripts/configuration.scala
 }
 start() {
   # Ensure the volume home has the correct permissions, because this can cause errors
