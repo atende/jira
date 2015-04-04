@@ -22,8 +22,8 @@ RUN mkdir /root/scripts
 COPY scripts/install_impl.sh /root/scripts/install_impl.sh
 COPY scripts/configuration.scala /root/scripts/configuration.scala
 COPY install_tools.sh /root/install_tools.sh
+RUN chmod +x /root/scripts/install_impl.sh;chmod +x /root/install_tools.sh
 RUN /root/install_tools.sh
-RUN chmod +x /root/scripts/install_impl.sh
 RUN /root/install.sh
 
 # Run

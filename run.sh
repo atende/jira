@@ -7,12 +7,12 @@ TOMCAT_LOCATION=/opt/${SOFTWARE_NAME}
 
 
 pre_start_action() {
-  exec /usr/local/bin/scala /root/scripts/configuration.scala
+  /usr/local/bin/scala -cp /usr/local/scala/lib -nocompdaemon -savecompiled /root/scripts/configuration.scala
 }
 start() {
   # Ensure the volume home has the correct permissions, because this can cause errors
   chown ${SOFTWARE_NAME}.${SOFTWARE_NAME} -R /opt/${SOFTWARE_NAME}-home
-  exec /sbin/setuser ${SOFTWARE_NAME} /opt/${SOFTWARE_NAME}/bin/start-${SOFTWARE_NAME}.sh
+  /sbin/setuser ${SOFTWARE_NAME} /opt/${SOFTWARE_NAME}/bin/start-${SOFTWARE_NAME}.sh
 }
 post_start(){
   : # No Op
