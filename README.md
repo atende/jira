@@ -28,6 +28,9 @@ See: [POSTGRESQL](POSTGRESQL.md)
     docker run -d --name SOFTWARE_NAME -p 8085:8085 --link postgresql:db atende/SOFTWARE_NAME \
     --volumes-from SOFTWARE_NAME\_datastore
 
+Note: If the software need to be runned in two ports, use the environment variable SECONDARY_NO_SSL_PORT=7080 this will create a secondary connector with NO SSL configuration.
+The default port will not be touched. This is a workround for the bug https://jira.atlassian.com/browse/JRA-40968
+
 ## Running Behind a Proxy
 
 In production environments is a best practice run the container on port 80 and
