@@ -8,6 +8,8 @@ ENV SOFTWARE_VERSION=6.4
 
 ENV SOFTWARE_PORT=8080
 
+ENV SCALA_HOME /usr/local/scala
+
 # Disable SSH (Not using it at the moment).
 RUN rm -rf /etc/service/sshd /etc/my_init.d/00_regen_ssh_host_keys.sh
 
@@ -18,7 +20,10 @@ RUN chmod +x /root/install.sh
 # Install
 RUN mkdir /root/scripts
 COPY scripts/install_impl.sh /root/scripts/install_impl.sh
-RUN chmod +x /root/scripts/install_impl.sh
+COPY scripts/configuration.scala /root/scripts/configuration.scala
+COPY install_tools.sh /root/install_tools.sh
+RUN chmod +x /root/scripts/install_impl.sh;chmod +x /root/install_tools.sh
+RUN /root/install_tools.sh
 RUN /root/install.sh
 
 # Run
