@@ -83,10 +83,10 @@ When this 3 variables are seted the follow is generated:
 
 1. File _WEB-INF/classes/seraph-config.xml_ is updated according with the documentation of each application, it is, the **<authenticator>** tag is replaced
 2. File _WEB-INF/classes/crowd.properties file is created
-3. For stash the file **stash-home/shared/stash-config.properties** is replaced or created with a the content **"plugin.auth-crowd.sso.enabled=true"**
+3. For stash line is added to the file **stash-home/shared/stash-config.properties** with a the content **"plugin.auth-crowd.sso.enabled=true"**
 
 You will need to prepare and configure each application before the change, read: https://confluence.atlassian.com/display/CROWD/Adding+an+Application for details.
 
 If you application is alread running, stops, remove and run again with the variables. If you follow the instalation process that separate application data and postgresql you will lose nothing.
 
-This feature was added after the first tags in github, so, if the readme do not contain this instruction only the latest release have that.
+This feature was added after the first tags in github, so, if the readme do not contain this instruction only the latest release have it.

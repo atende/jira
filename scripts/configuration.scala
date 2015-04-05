@@ -2,6 +2,7 @@ import scala.xml.XML
 import scala.xml.transform._
 import scala.xml._
 import java.nio.file.StandardCopyOption.REPLACE_EXISTING
+import java.nio.file.StandardOpenOption.APPEND
 import java.nio.file.Files.copy
 import java.nio.file.Paths.get
 import java.nio.file.Files.exists
@@ -79,6 +80,7 @@ val softwareHome = if(SOFTWARE_NAME == "confluence") TOMCAT_LOCATION + s"/conflu
 val seraphFile = softwareHome + "/WEB-INF/classes/seraph-config.xml"
 val crowdPropertiesFile = softwareHome + "/WEB-INF/classes/crowd.properties"
 val stashConfigProperties = "/opt/stash-home/shared/stash-config.properties"
+val stashConfigPropertiesOriginal = "/opt/stash-home/shared/stash-config.original.properties"
 for {
   crowdUrl <- CROWD_URL
   crowdPassword <- CROWD_PASSWORD
@@ -91,7 +93,17 @@ for {
     val crowdProperties = createCrowProperties(crowdAppName, crowdPassword, crowdUrl)
     Files.write(Paths.get(crowdPropertiesFile), crowdProperties.getBytes(StandardCharsets.UTF_8))
   }else {
-    Files.write(Paths.get(stashConfigProperties), "plugin.auth-crowd.sso.enabled=true".getBytes(StandardCharsets.UTF_8))
+    if(exists(stashConfigPropertiesOriginal)){
+      copy (stashConfigPropertiesOriginal, stashConfigProperties, REPLACE_EXISTING)
+      Files.write(Paths.get(stashConfigProperties), "plugin.auth-crowd.sso.enabled=true".getBytes(StandardCharsets.UTF_8), APPEND)
+    }else if(exists(stashConfigProperties)){
+      copy (stashConfigProperties, stashConfigPropertiesOriginal, REPLACE_EXISTING)
+      Files.write(Paths.get(stashConfigProperties),"plugin.auth-crowd.sso.enabled=true".getBytes(StandardCharsets.UTF_8), APPEND)
+    }else{
+      Files.createFile(stashConfigPropertiesOriginal)
+      Files.write(Paths.get(stashConfigProperties), "plugin.auth-crowd.sso.enabled=true".getBytes(StandardCharsets.UTF_8))
+    }
+
   }
 }
 
