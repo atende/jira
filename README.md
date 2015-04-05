@@ -57,3 +57,36 @@ If you are migrating, restore your data in the data containers, and in the datab
 The startup script for crane command could be something like that:
 
     /usr/local/bin/crane lift -c /etc/crane.yml > /dev/null 2>&1
+
+## Single Single On with Crowd
+
+Atlassian applications could be configured to talk in Single Single On with Crowd software. Some applications has different configuration procedures, such as Stash, but for this that have the same procedure as Jira, that is, the configuration is created by file modifications in the tomcat instalation there is a automatic way to create such config in this container. This is important, because the docker principle is that container are disposable, and you don't want to tight couple its configuration to the container, because you need to recreate this configs each time you update a container. Unfortunnely some aspects of the configuration for atlassian products violates this principle, the proxy configuration and Single Single On are some examples.
+
+To recreate the Single Single On config the procedure was automated for the softwares:
+
+* Jira
+* Bamboo
+* Confluence
+* Stash - Stash has a different procedure, but you can create the file needed, transparent
+
+### How it works
+
+With the same principle of proxy, environment variables are readed to create and update the files needed. This variables are:
+
+```
+CROWD_URL - URL for the crowd application, ex.: http://localhost:8085 (/crowd/services and /crowd/console will be appended)
+CROWD_APPLICATION_NAME - Name of the application for authentication
+CROWD_PASSWORD - Password for auth
+```
+
+When this 3 variables are seted the follow is generated:
+
+1. File _WEB-INF/classes/seraph-config.xml_ is updated according with the documentation of each application, it is, the **<authenticator>** tag is replaced
+2. File _WEB-INF/classes/crowd.properties file is created
+3. For stash the file **stash-home/shared/stash-config.properties** is replaced or created with a the content **"plugin.auth-crowd.sso.enabled=true"**
+
+You will need to prepare and configure each application before the change, read: https://confluence.atlassian.com/display/CROWD/Adding+an+Application for details.
+
+If you application is alread running, stops, remove and run again with the variables. If you follow the instalation process that separate application data and postgresql you will lose nothing.
+
+This feature was added after the first tags in github, so, if the readme do not contain this instruction only the latest release have that.
