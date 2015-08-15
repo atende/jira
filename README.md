@@ -15,7 +15,7 @@ will assume this.
 
 Create a data-only container from Busybox (very small footprint) and name it "jira\_datastore":
 
-    docker run -v /opt/crowd-home --name=jira\_datastore -d busybox echo "jira data"
+    docker run -v /opt/jira-home --name=jira\_datastore -d busybox echo "jira data"
 
 **NOTE**: data-only containers don't have to run / be active to be used.
 
