@@ -2,7 +2,7 @@
 
 install(){
   echo "Downloading software ${SOFTWARE_NAME}"
-  curl -LSs https://www.atlassian.com/software/${SOFTWARE_NAME}/downloads/binary/atlassian-${SOFTWARE_NAME}-${SOFTWARE_VERSION}.tar.gz -o /tmp/${SOFTWARE_NAME}.tar.gz
+  curl -LSs https://www.atlassian.com/software/${SOFTWARE_NAME}/downloads/binary/atlassian-jira-software-${SOFTWARE_VERSION}.tar.gz -o /tmp/${SOFTWARE_NAME}.tar.gz
   echo "Installing ${SOFTWARE_NAME}"
   mkdir -p /opt/${SOFTWARE_NAME}
   tar zxf /tmp/${SOFTWARE_NAME}.tar.gz --strip=1 -C /opt/${SOFTWARE_NAME}
