@@ -4,7 +4,7 @@ MAINTAINER Giovanni Silva giovanni@atende.info
 
 ENV SOFTWARE_NAME=jira
 
-ENV SOFTWARE_VERSION=7.2.0
+ENV SOFTWARE_VERSION=7.1.9
 
 ENV SOFTWARE_PORT=8080
 
@@ -14,6 +14,7 @@ ENV SCALA_HOME /usr/local/scala
 RUN rm -rf /etc/service/sshd /etc/my_init.d/00_regen_ssh_host_keys.sh
 
 COPY install.sh /root/install.sh
+# COPY jira.tar.gz /tmp/jira.tar.gz
 
 RUN chmod +x /root/install.sh
 
